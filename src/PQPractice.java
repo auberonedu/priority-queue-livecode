@@ -1,5 +1,8 @@
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.PriorityQueue;
 
 public class PQPractice {
@@ -38,6 +41,55 @@ public class PQPractice {
         // System.out.println(pq.peek());
         // System.out.println(pq.poll());
 
-        
+        List<Integer> nums = List.of(33,2,5,77,2,8,99,1,2,55,2,5,6,33,2);
+        Timer.time();
+        topKEfficient(nums, 4);
+        System.out.println(Timer.time("topKEfficient"));
+        // System.out.println(topKEfficient(nums, 4));
     }
+
+    //return top K elements in list
+    //original list is NOT modified
+    public static List<Integer> topK(List<Integer> nums, int k) {
+        List<Integer> copy = new ArrayList<>(nums);
+        Collections.sort(copy);
+        return copy.subList(nums.size() - k, nums.size());
+    }
+
+    public static List<Integer> topKEfficient(List<Integer> nums, int k) {
+        PriorityQueue<Integer> best = new PriorityQueue<>();
+
+        for (int num : nums) {
+            if(best.size()<k) {
+                best.add(num);
+            } else if (num>best.peek()) {
+                best.poll();
+                best.add(num);
+            }
+        }
+
+        List<Integer> result = new ArrayList<>();
+        while(!best.isEmpty()) {
+            result.add(best.poll());
+        }
+
+        return result;
+    }
+    public class Timer {
+    private static long startTime = 0;
+
+    // Call this to start the timer
+    public static void time() {
+        startTime = System.nanoTime();
+    }
+
+    // Call this to get elapsed time as a formatted string
+    public static String time(String label) {
+        long endTime = System.nanoTime();
+        long duration = endTime - startTime;
+        double millis = duration / 1_000_000.0;
+        return label + " took " + millis + " ms";
+    }
+}
+
 }
