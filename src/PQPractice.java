@@ -67,6 +67,9 @@ public class PQPractice {
             }
         }
 
+        // List<Integer> result = new ArrayList<>(best);   This is have an output like 89, 98, 334, 99 this is not in a sorted order
+        
+        // this keeps the list sorted in the top elements
         List<Integer> result = new ArrayList<>();
         while (!best.isEmpty()) {
             result.add(best.poll());
